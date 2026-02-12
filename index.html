@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perry Simmons</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #111111;
+    --bg-card: #161616;
+    --text: #e8e4df;
+    --text-muted: #8a8580;
+    --accent: #c9a96e;
+    --accent-light: #e0c993;
+    --accent-dark: #a07d3f;
+    --divider: #2a2725;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; line-height: 1.7; overflow-x: hidden; cursor: default; }
+  ::selection { background: var(--accent); color: var(--bg); }
+  body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; }
+  nav { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent); backdrop-filter: blur(8px); transition: all 0.4s ease; }
+  .nav-logo { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text); text-decoration: none; text-transform: uppercase; }
+  .nav-logo span { color: var(--accent); }
+  .nav-tagline { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; position: relative; transition: color 0.3s; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s ease; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 5px; }
+  .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 4rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%); pointer-events: none; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1200px; }
+  .hero-portrait { width: 100%; max-width: 400px; overflow: hidden; border: 1px solid var(--divider); justify-self: end; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+  .hero-portrait img { width: 100%; height: auto; display: block; transition: filter 0.5s ease, transform 0.5s ease; }
+  .hero-portrait:hover img { transform: scale(1.03); }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(3.5rem, 8vw, 8rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .hero-sub { max-width: 600px; font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+  .hero-ctas { display: flex; gap: 1.5rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+  .btn-primary { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; padding: 1rem 2.5rem; background: var(--accent); color: var(--bg); border: none; cursor: pointer; text-decoration: none; transition: all 0.3s; }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,169,110,0.2); }
+  .btn-outline { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; padding: 1rem 2.5rem; background: transparent; color: var(--text); border: 1px solid var(--divider); cursor: pointer; text-decoration: none; transition: all 0.3s; }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .hero-scroll { position: absolute; bottom: 3rem; left: 3rem; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); writing-mode: vertical-lr; opacity: 0; animation: fadeIn 1s 1.2s forwards; }
+  .hero-scroll::before { content: ''; display: block; width: 1px; height: 40px; background: var(--accent); margin: 0 auto 1rem; animation: scrollPulse 2s infinite; }
+  section { padding: 6rem 3rem; position: relative; }
+  .section-number { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 1rem; }
+  .section-divider { width: 60px; height: 1px; background: var(--accent); margin: 2rem 0; }
+  #about { background: var(--bg-elevated); border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); }
+  .about-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; max-width: 900px; margin: 0 auto; }
+  .about-text p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1rem; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .legacy-banner { padding: 5rem 3rem; background: linear-gradient(135deg, #0a0b10 0%, #0f1118 50%, #0a0b10 100%); border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); position: relative; overflow: hidden; }
+  .podcast-feature { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 300px 1fr; gap: 3rem; align-items: center; }
+  .podcast-art { aspect-ratio: 1; background: linear-gradient(135deg, #1a1510, #2a2015, #1a1510); border: 1px solid var(--divider); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .podcast-art::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(201,169,110,0.15); }
+  .podcast-art-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; line-height: 1.1; padding: 0 1.5rem; }
+  .podcast-art-sub { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-top: 1rem; }
+  .podcast-info h3 { font-family: var(--font-display); font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .podcast-info h3 em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .podcast-info p { color: var(--text-muted); font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.8; }
+  .podcast-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .podcast-link { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; padding: 0.6rem 1.2rem; border: 1px solid var(--divider); transition: all 0.3s; }
+  .podcast-link:hover { color: var(--accent); border-color: var(--accent); }
+  .worlds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 3rem auto 0; }
+  .world-card { background: var(--bg-card); border: 1px solid var(--divider); padding: 2.5rem; position: relative; overflow: hidden; transition: all 0.4s ease; }
+  .world-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+  .world-card:hover::before { transform: scaleX(1); }
+  .world-card:hover { border-color: var(--accent-dark); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .world-icon { font-size: 1.5rem; margin-bottom: 1.5rem; display: block; }
+  .world-card h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .world-card .card-tag { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: block; }
+  .world-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+  .world-card a { display: inline-block; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); text-decoration: none; transition: all 0.3s; border-bottom: 1px solid transparent; }
+  .world-card a:hover { border-bottom-color: var(--accent); }
+  #credentials { background: var(--bg-elevated); border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); }
+  .cred-timeline { max-width: 800px; margin: 3rem auto 0; position: relative; }
+  .cred-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--accent), var(--divider)); }
+  .cred-item { padding-left: 3rem; margin-bottom: 2.5rem; position: relative; }
+  .cred-item::before { content: ''; position: absolute; left: -3.5px; top: 8px; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+  .cred-item h4 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .cred-item .cred-org { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+  .cred-current { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-left: 0.75rem; vertical-align: middle; }
+  #speaking { background: var(--bg-elevated); border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); }
+  .speaking-content { max-width: 900px; margin: 0 auto; }
+  .speaking-topics { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2.5rem 0; }
+  .topic-item { display: flex; align-items: baseline; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--divider); }
+  .topic-num { font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-dark); letter-spacing: 0.1em; flex-shrink: 0; }
+  .topic-text { font-size: 0.95rem; color: var(--text); }
+  .booking-box { background: linear-gradient(135deg, rgba(201,169,110,0.08), rgba(201,169,110,0.02)); border: 1px solid rgba(201,169,110,0.2); padding: 3rem; margin-top: 3rem; text-align: center; }
+  .booking-box h4 { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1rem; }
+  .booking-box p { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem; }
+  .booking-box .agent-email { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.05em; }
+  footer { padding: 4rem 3rem 3rem; border-top: 1px solid var(--divider); display: flex; justify-content: space-between; align-items: end; }
+  .footer-left .footer-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .footer-left p { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.1em; }
+  .footer-social { display: flex; gap: 1rem; }
+  .footer-social a { background: var(--bg-card); border: 1px solid var(--divider); padding: 1rem 1.5rem; text-decoration: none; transition: all 0.3s; display: flex; align-items: center; gap: 0.75rem; }
+  .footer-social a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .footer-social .social-icon { font-size: 1.2rem; color: var(--text); }
+  .footer-social .social-label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10,10,10,0.98); backdrop-filter: blur(12px); padding: 2rem 1.5rem; gap: 1.5rem; border-bottom: 1px solid var(--divider); }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-scroll { display: none; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-portrait { max-width: 300px; justify-self: start; order: -1; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .worlds-grid { grid-template-columns: 1fr; }
+    .podcast-feature { grid-template-columns: 1fr; }
+    .podcast-art { max-width: 280px; }
+    .speaking-topics { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
+  }
+  @media (max-width: 500px) {
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas a { text-align: center; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo">Perry <span>Simmons</span>
+    <div class="nav-tagline">Attorney &#183; Entrepreneur &#183; Philanthropist</div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#worlds">Worlds</a></li>
+    <li><a href="https://www.thedissociate.com/" target="_blank">Podcast</a></li>
+    <li><a href="#credentials">Path</a></li>
+    <li><a href="#speaking">Speaking</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <h1>Perry<br><em>Simmons</em></h1>
+      <p class="hero-sub">Bridging the worlds of business, technology, culture and impact.</p>
+      <div class="hero-ctas">
+        <a href="#speaking" class="btn-primary">Book for Speaking</a>
+        <a href="https://www.thedissociate.com/" target="_blank" class="btn-outline">Listen to The Dissociate &#8594;</a>
+      </div>
+    </div>
+    <div class="hero-portrait">
+      <img src="portrait.png" alt="Perry Simmons" />
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-number">01 &#8212; About</div>
+      <div class="section-divider"></div>
+      <p><strong>Perry Simmons</strong> is an attorney, entrepreneur, and philanthropist working at the intersection of technology, business and culture. Originally from Austin, Texas, she grew up between her family&#8217;s 19th-century ranch and the laboratories of the UT Austin campus where her mother worked as a cancer research scientist. Music was her first language &#8212; she began playing and writing as a child &#8212; and it remains the backbeat of her life. Today, Simmons is a sought-after voice on how capital, creativity, and strategic analysis can drive meaningful change across business, technology, and culture.</p>
+      <p>As Co-Founder and Managing Partner of <strong>Kelly &amp; Simmons LLP</strong>, Simmons advises high-growth companies across the technology and venture ecosystem, from early-stage startups to global platforms. Her perspective draws on two decades of leading cross-border M&amp;A and finance transactions at <strong>Skadden Arps</strong> in Los Angeles and New York, and later driving global initiatives as Executive Director of Helena, where she represented the organization at the <strong>World Economic Forum</strong>.</p>
+      <p>Simmons is equally devoted to cultural and philanthropic leadership. For more than a decade she has raised funds and provided strategic counsel for <strong>UNICEF USA</strong>, co-chairing multiple gala events for the organization. Simmons is the creator and host of <strong>The Dissociate</strong>, a platform that examines the forces shaping business, technology and culture.</p>
+      <div style="margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <span>Austin &#8596; New York &#8596; Los Angeles</span>
+        <span>Harvard Law School &#183; University of Southern California</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="worlds">
+  <div class="section-number reveal">02 &#8212; Worlds</div>
+  <div class="section-divider reveal"></div>
+  <div class="worlds-grid">
+    <div class="world-card reveal">
+      <span class="world-icon">&#127908;</span>
+      <span class="card-tag">Culture &amp; Story</span>
+      <h3>The Dissociate</h3>
+      <p>Creator of the Dissociate a platform that examines the forces shaping life across business, technology and culture.</p>
+      <a href="https://www.thedissociate.com/" target="_blank">Listen Now &#8594;</a>
+    </div>
+    <div class="world-card reveal">
+      <span class="world-icon">&#9878;</span>
+      <span class="card-tag">Law &amp; Venture</span>
+      <h3>Kelly &amp; Simmons LLP</h3>
+      <p>Co-Founder and Managing Partner, advising high-growth technology and media companies. Former Skadden Arps M&amp;A and finance lawyer leading complex cross-border transactions.</p>
+      <a href="https://www.kellysimmonslaw.com/" target="_blank">Visit the Firm &#8594;</a>
+    </div>
+    <div class="world-card reveal">
+      <span class="world-icon">&#9670;</span>
+      <span class="card-tag">Impact &amp; Philanthropy</span>
+      <h3>UNICEF USA</h3>
+      <p>Member of UNICEF NextGen Leadership Council and Founding Member of UNICEF NextGeneration Los Angeles.</p>
+      <a href="https://www.unicefusa.org/about-unicef-usa/leadership/next-gen" target="_blank">Learn More &#8594;</a>
+    </div>
+  </div>
+</section>
+<section id="credentials">
+  <div class="section-number reveal">03 &#8212; Path</div>
+  <div class="section-divider reveal"></div>
+  <div class="cred-timeline">
+    <div class="cred-item reveal">
+      <h4>Founder <span class="cred-current">Current</span></h4>
+      <span class="cred-org">The Dissociate Media Group</span>
+    </div>
+    <div class="cred-item reveal">
+      <h4>Co-Founder &amp; Managing Partner <span class="cred-current">Current</span></h4>
+      <span class="cred-org">Kelly &amp; Simmons LLP</span>
+    </div>
+    <div class="cred-item reveal">
+      <h4>Strategic Advisor <span class="cred-current">Current</span></h4>
+      <span class="cred-org">Ruli.ai</span>
+    </div>
+    <div class="cred-item reveal">
+      <h4>Executive Director</h4>
+      <span class="cred-org">Helena</span>
+    </div>
+    <div class="cred-item reveal">
+      <h4>Senior M&amp;A and Finance Associate</h4>
+      <span class="cred-org">Skadden, Arps, Slate, Meagher &amp; Flom LLP</span>
+    </div>
+    <div class="cred-item reveal">
+      <h4>Behavioral Neuroscience Researcher</h4>
+      <span class="cred-org">National Institutes of Health, National Institute of Drug Abuse</span>
+    </div>
+    <div class="cred-item reveal">
+      <h4>Education</h4>
+      <span class="cred-org">Harvard Law School &#183; University of Southern California</span>
+    </div>
+  </div>
+</section>
+<section id="speaking">
+  <div class="speaking-content">
+    <div class="section-number reveal">04 &#8212; Speaking</div>
+    <div class="section-divider reveal"></div>
+    <p class="reveal" style="color: var(--text-muted); max-width: 650px; margin-bottom: 1rem;">A sought-after voice on how capital, creativity, and strategic analysis can drive meaningful change. Perry speaks on:</p>
+    <div class="speaking-topics reveal">
+      <div class="topic-item"><span class="topic-num">01</span><span class="topic-text">The Future of Law &amp; Technology</span></div>
+      <div class="topic-item"><span class="topic-num">02</span><span class="topic-text">AI &amp; Innovation</span></div>
+      <div class="topic-item"><span class="topic-num">03</span><span class="topic-text">Media &amp; Culture</span></div>
+      <div class="topic-item"><span class="topic-num">04</span><span class="topic-text">Philanthropy &amp; Social Impact</span></div>
+      <div class="topic-item"><span class="topic-num">05</span><span class="topic-text">Business Development &amp; Strategy</span></div>
+      <div class="topic-item"><span class="topic-num">06</span><span class="topic-text">Leadership &amp; Entrepreneurship</span></div>
+    </div>
+    <div class="booking-box reveal">
+      <h4>Booking Inquiries</h4>
+      <p>For speaking engagements, appearances, and media inquiries, please contact <a href="https://lynnchen.com/contact" target="_blank" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">lynnchen.com/contact</a>.</p>
+      <a href="https://lynnchen.com/contact" target="_blank" class="btn-primary" style="display: inline-block;">Book for Speaking</a>
+      
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="footer-left">
+    <div class="footer-name">Perry Simmons</div>
+    <p>Attorney &#183; Entrepreneur &#183; Philanthropist</p>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1rem;">
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/danielleesimmons" target="_blank"><span class="social-icon">&#9638;</span><span class="social-label">LinkedIn</span></a>
+      <a href="https://www.instagram.com/theperrysimmons?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr" target="_blank"><span class="social-icon">&#9678;</span><span class="social-label">Instagram</span></a>
+    </div>
+    <p style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase;">&#169; 2026 Perry Simmons. All rights reserved.</p>
+  </div>
+</footer>
+<script>
+  var hamburger = document.getElementById('hamburger');
+  var navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+  var links = navLinks.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) { links[i].addEventListener('click', function() { navLinks.classList.remove('open'); }); }
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        (function(target, delay) { setTimeout(function() { target.classList.add('visible'); }, delay); })(entries[i].target, i * 80);
+        observer.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.1 });
+  for (var i = 0; i < reveals.length; i++) { observer.observe(reveals[i]); }
+  window.addEventListener('scroll', function() {
+    var nav = document.querySelector('nav');
+    if (window.scrollY > 100) { nav.style.background = 'rgba(10,10,10,0.95)'; }
+    else { nav.style.background = 'linear-gradient(to bottom, rgba(10,10,10,0.95), transparent)'; }
+  });
+</script>
+</body>
+</html>
